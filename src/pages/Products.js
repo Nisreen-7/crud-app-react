@@ -1,35 +1,38 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Products.css";
+import Swal from "sweetalert2";
 
 function Products() {
   const [products, setProducts] = useState([]);
-
 
   useEffect(() => {
     getAllProducts();
   }, []);
 
-
-const getAllProducts=()=>{
-
+  const getAllProducts = () => {
     fetch("http://localhost:9000/products/")
-    .then((res) => res.json())
-    .then((products) => {
-      setProducts(products);
+      .then((res) => res.json())
+      .then((products) => {
+        setProducts(products);
+      });
+  };
+
+  const DeleteProduct = (product) => {
+    Swal.fire({
+      title: `Are You Sure To Delete ${product.title} ?`,
+      showCancelButton: true,
+    }).then((data) => {
+      if (data.isConfirmed) {
+        fetch(`http://localhost:9000/products/${product.id}`, {
+          method: "DELETE",
+        })
+          .then((res) => res.json())
+          .then(() => {
+            getAllProducts();
+          });
+      }
     });
-}
-
-
-  const DeleteProduct = (productid) => {
-    fetch(`http://localhost:9000/products/${productid}` ,{
-        method:"DELETE"
-    })
-    .then((res)=>res.json())
-    .then(()=>{
-        getAllProducts();
-    })
-   
   };
 
   return (
@@ -60,7 +63,7 @@ const getAllProducts=()=>{
                 <td>
                   <button
                     className="btn btn-danger btn-sm"
-                    onClick={() => DeleteProduct(product.id)}
+                    onClick={() => DeleteProduct(product)}
                   >
                     Delete
                   </button>
