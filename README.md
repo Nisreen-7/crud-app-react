@@ -1,3 +1,12 @@
+# Dans cet projet,le back est db-api(json-server) sur le port:9000
+
+## mode d'emploi:
+
+1. npm install -g json-server
+2. creer un dossier db-api et dedans est un fichier db.json
+3. entre dans le dossier par terminal et apres execute ce commend:
+   json-server --watch db.json --port 9000
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
